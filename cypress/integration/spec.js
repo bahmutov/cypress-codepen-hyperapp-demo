@@ -2,7 +2,6 @@
 const url = 'https://codepen.io/bahmutov/full/ZaMxgz/'
 // that loads app from this URL
 const iframeUrl = 'https://s.codepen.io/bahmutov/fullpage/ZaMxgz'
-
 describe('HyperApp Counter Codepen', () => {
   beforeEach(function loadAppIFrameAndSetAsOurTestDocument () {
     cy
@@ -11,8 +10,7 @@ describe('HyperApp Counter Codepen', () => {
         url: iframeUrl,
         headers: {
           Referer: url,
-          accept: 'text/html',
-          'content-type': 'text/html'
+          accept: 'text/html'
         }
       })
       .its('body')
@@ -27,6 +25,9 @@ describe('HyperApp Counter Codepen', () => {
 
   // a few utility functions for working with the app's DOM
   const getCount = () => cy.get('main').find('h1')
+  it('starts with zero', () => {
+    getCount().contains('0')
+  })
 
   // NOTE: while it looks like buttons have regular ASCII "+" and "-"
   // in reality these are Unicode symbols ＋ and ー
