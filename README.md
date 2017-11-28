@@ -8,7 +8,7 @@ To run tests locally
 
 ```
 npm install
-npm run open
+npm test
 ```
 
 This opens Cypress test runner. Click on the `spec.js` file to run the end to end tests.
