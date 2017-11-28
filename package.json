@@ -1,7 +1,7 @@
 {
   "name": "cypress-codepen-hyperapp-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Demo of E2E testing HyperApp.js counter app running on Codepen.io using Cypress.io",
   "main": "index.js",
   "scripts": {
     "test": "cypress open"

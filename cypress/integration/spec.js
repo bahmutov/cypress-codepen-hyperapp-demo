@@ -1,9 +1,10 @@
-// our Codepen
+// our Codepen has top level URL
 const url = 'https://codepen.io/bahmutov/full/ZaMxgz/'
+// that loads app from this URL
 const iframeUrl = 'https://s.codepen.io/bahmutov/fullpage/ZaMxgz'
 
 describe('HyperApp Counter Codepen', () => {
-  beforeEach(() => {
+  beforeEach(function loadAppIFrameAndSetAsOurTestDocument () {
     cy
       .request({
         method: 'GET',
@@ -24,6 +25,7 @@ describe('HyperApp Counter Codepen', () => {
     cy.get('main').should('be.visible')
   })
 
+  // a few utility functions for working with the app's DOM
   const getCount = () => cy.get('main').find('h1')
 
   // NOTE: while it looks like buttons have regular ASCII "+" and "-"
@@ -43,6 +45,12 @@ describe('HyperApp Counter Codepen', () => {
     getMinus().should('be.disabled')
   })
 
+  it('cannot decrement by clicking on disabled minus button', () => {
+    getCount().contains(0).should('be.visible')
+    getMinus().click({ force: true }) // because button is disabled
+    getCount().contains(0).should('be.visible')
+  })
+
   it('enables decrement button for positive numbers', () => {
     getPlus().click()
     getMinus().should('not.be.disabled')
@@ -51,7 +59,13 @@ describe('HyperApp Counter Codepen', () => {
     getMinus().should('be.disabled')
   })
 
+  // returns window._app = app(...) reference
+  // created in the Codepen
   const getApp = () => cy.window().its('_app')
+
+  it('returns actions object', () => {
+    getApp().should('have.all.keys', 'down', 'up')
+  })
 
   it("can drive DOM via App's actions", () => {
     getApp().then(actions => {
